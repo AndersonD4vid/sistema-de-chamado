@@ -1,0 +1,38 @@
+.areaClientes {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   margin-bottom: 100px;
+}
+
+.areaForm {
+   width: 500px;
+   background-color: #fff;
+   display: flex;
+   margin-top: 40px;
+   padding: 25px;
+   border-radius: 15px;
+   flex-direction: column;
+   margin-bottom: 100px;
+}
+
+.areaForm label {
+   font-size: 1.3em;
+   font-weight: 500;
+   margin-bottom: 4px;
+}
+
+.areaForm input {
+   width: 100%;
+   padding: 10px;
+   border-radius: 6px;
+   margin-bottom: 10px;
+}
+
+@media screen and (max-width: 700px) {
+   .areaForm {
+      width: 100%;
+      display: block;
+   }
+
+}

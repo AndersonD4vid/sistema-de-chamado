@@ -1,0 +1,99 @@
+.areaPerfil {
+   display: flex;
+   justify-content: center;
+}
+
+.areaAvatar {
+   width: 90%;
+   margin: 0 auto;
+   margin-top: 30px;
+   display: flex;
+   justify-content: center;
+}
+
+
+.areaAvatar img {
+   width: 200px;
+   height: 200px;
+}
+
+.boxAvatar {
+   width: 200px;
+   height: 200px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   cursor: pointer;
+   border-radius: 200px;
+   transition: 0.2s;
+}
+
+.avatarPerfil {
+   width: 200px;
+   height: 200px;
+   border-radius: 200px;
+}
+
+.boxAvatar input {
+   display: none;
+}
+
+.iconeUpload {
+   z-index: 1000;
+   position: absolute;
+   display: flex;
+   gap: 10;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+
+.boxAvatar:hover .overlayFotoPerfil {
+   display: block;
+}
+
+.overlayFotoPerfil {
+   width: 200px;
+   height: 200px;
+   border-radius: 200px;
+   background-color: rgba(0, 0, 0, 0.8);
+   position: absolute;
+   display: none;
+   z-index: 999;
+
+}
+
+.areaInputs {
+   display: flex;
+   flex-direction: column;
+}
+
+.areaInputs input {
+   width: 300px;
+   padding: 10px;
+   border-radius: 6px;
+   border: none;
+   margin-bottom: 10px;
+   background-color: white;
+}
+
+.areaInputs label {
+   font-size: 1em;
+   font-weight: 500;
+   margin-bottom: 4px;
+}
+
+.botao {
+   width: 100%;
+   cursor: pointer;
+   background-color: #7489AF;
+   border-color: #48649a;
+   border: 2px solid;
+   margin-top: 20px;
+}
+
+.botao:hover {
+   background-color: rgb(1, 89, 1);
+   border-color: #034f06;
+}

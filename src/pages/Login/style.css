@@ -1,0 +1,40 @@
+.container {
+   width: 100%;
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.containerLogin {
+   width: 300px;
+   height: 350px;
+   padding: 25px;
+   background-color: whitesmoke;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 10px;
+   border-radius: 10px;
+}
+
+.containerLogin h1 {
+   font-size: 1.3em;
+   padding-bottom: 10px;
+}
+
+.containerLogin input {
+   width: 100%;
+   padding: 10px;
+   margin-bottom: 10px;
+   border-radius: 8px;
+   border: 1px solid #333;
+}
+
+.botao {
+   width: 100%;
+   padding: 20px;
+   background-color: #333;
+   border-radius: 10px;
+   color: white;
+}

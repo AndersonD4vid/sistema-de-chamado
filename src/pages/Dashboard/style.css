@@ -1,0 +1,92 @@
+.content {
+   display: flex;
+   flex-direction: row;
+   background-color: whitesmoke;
+}
+
+.contentDash {
+   width: 100%;
+   height: auto;
+   min-height: 100vh;
+   padding: 10px 25px;
+   margin-left: 300px;
+}
+
+.areaBotao {
+   width: 100%;
+   margin-top: 30px;
+}
+
+.areaBotao button {
+   padding: 10px;
+}
+
+.botoes {
+   display: flex;
+   flex-direction: row;
+   gap: 10px;
+   align-items: center;
+   height: 55px;
+}
+
+.botao {
+   color: white;
+   width: 30px;
+   height: 30px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.botaoDefault {
+   width: 40px;
+   height: 40px;
+   text-align: center;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+
+.areaTabela {
+   margin-top: 40px;
+   margin-bottom: 90px;
+}
+
+.tabela {
+   display: flex;
+   flex-direction: column;
+}
+
+.tabela strong {
+   font-size: 1.1em;
+}
+
+.badge {
+   font-size: 13px;
+}
+
+.row {
+   border-radius: 6px;
+   overflow: hidden;
+}
+
+.Col {
+   word-wrap: break-word;
+   background-color: #fff;
+   border-right: 1px solid #bbb;
+}
+
+
+
+@media screen and (max-width: 700px) {
+   .content {
+      flex-direction: column;
+   }
+
+   .contentDash {
+      margin-left: 0px;
+      margin-top: 40px;
+   }
+
+}
