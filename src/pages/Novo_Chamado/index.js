@@ -5,15 +5,18 @@ import Title from '../../components/Title';
 import { FiClipboard } from "react-icons/fi";
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { db } from '../../services/conexaoFirebase';
-import { collection, getDocs, getDoc, doc, addDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, addDoc, updateDoc } from 'firebase/firestore';
 import { AuthContext } from '../../contexts/auth';
 import { toast } from 'react-toastify';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 const listRef = collection(db, "clientes");
 
 export default function NovoChamado() {
    const { user } = useContext(AuthContext);
+   const { id } = useParams();
+   const navigate = useNavigate();
 
    const [clientes, setClientes] = useState([]);
    const [loadingCliente, setLoadingCliente] = useState(true);
@@ -22,6 +25,7 @@ export default function NovoChamado() {
    const [observacao, setObservacao] = useState('');
    const [assunto, setAssunto] = useState('Suporte');
    const [status, setStatus] = useState('Aberto');
+   const [idCliente, setIdCliente] = useState(false);
 
 
    // Buscando dados dos clientes
@@ -51,6 +55,10 @@ export default function NovoChamado() {
                setClientes(lista);
                setLoadingCliente(false);
 
+               if (id) {
+                  loadId(lista);
+               }
+
             }).catch((error) => {
                console.log('Erro ao buscar os clientes', error);
                loadingCliente(false);
@@ -59,7 +67,26 @@ export default function NovoChamado() {
       }
 
       setLoadingClientes();
-   }, [])
+   }, [id])
+
+   async function loadId(lista) {
+      const docRef = doc(db, "chamados", id);
+      await getDoc(docRef)
+         .then((snapshot) => {
+            setAssunto(snapshot.data().assunto);
+            setStatus(snapshot.data().status);
+            setObservacao(snapshot.data().observacao);
+
+            // Buscando o id do mesmo cliente
+            let index = lista.findIndex(item => item.id === snapshot.data().clienteID);
+            // Setando
+            setClienteSelected(index);
+            setIdCliente(true); // informa que estar de fato na tela de edição, e não a tela de novo chamado
+         }).catch((error) => {
+            console.log('Erro: Algo deu errado,' + error);
+            setIdCliente(false);
+         })
+   }
 
    function handleOptionChange(e) {
       setStatus(e.target.value);
@@ -76,6 +103,28 @@ export default function NovoChamado() {
 
    async function handleSubmit(e) {
       e.preventDefault();
+
+      if (idCliente) {
+         // Atualizando chamado
+         const docRef = doc(db, "chamados", id);
+         await updateDoc(docRef, {
+            cliente: clientes[clienteSelected].nomeFantasia,
+            clienteID: clientes[clienteSelected].id,
+            assunto: assunto,
+            status: status,
+            observacao: observacao,
+            userId: user.uid
+         }).then(() => {
+            toast.success('Sucesso: Chamado atualizado!');
+            setClienteSelected(0);
+            setObservacao('');
+            navigate('/dashboard');
+         }).catch((error) => {
+            toast.error('Erro: Algo deu errado! Tente mais tarde!', error);
+         })
+         return;
+      }
+
       await addDoc(collection(db, "chamados"), {
          created: new Date(),
          cliente: clientes[clienteSelected].nomeFantasia,
@@ -99,7 +148,7 @@ export default function NovoChamado() {
       <div className='content'>
          <Header />
          <div className='contentDash'>
-            <Title name="Novo chamado">
+            <Title name={id ? 'Editando chamado' : 'Novo chamado'}>
                <FiClipboard color='#333' size={24} />
             </Title>
 
@@ -204,11 +253,11 @@ export default function NovoChamado() {
                               <Input
                                  type="radio"
                                  name="radio5"
-                                 value="Aguardando pagamento"
-                                 checked={status === 'Aguardando pagamento'}
+                                 value="Pagamento pendente"
+                                 checked={status === 'Pagamento pendente'}
                                  onChange={handleOptionChange}
                               />
-                              Aguardando pagamento
+                              Pagamento pendente
                            </Label>
                         </FormGroup>
                      </Col>
@@ -221,6 +270,7 @@ export default function NovoChamado() {
                                  type="textarea"
                                  name="text"
                                  value={observacao}
+                                 maxLength={1000}
                                  placeholder='Descreva um pouco sobre o chamado...'
                                  onChange={(e) => setObservacao(e.target.value)}
 
@@ -233,7 +283,7 @@ export default function NovoChamado() {
                   </Row>
 
                   <Button color="success" type='submit'>
-                     Criar chamado
+                     {id ? 'Atualizar' : 'Criar chamado'}
                   </Button>
 
                </form>

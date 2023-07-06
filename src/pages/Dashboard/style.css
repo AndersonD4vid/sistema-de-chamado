@@ -62,8 +62,14 @@
    font-size: 1.1em;
 }
 
+.tabela span {
+   font-size: 14px;
+   font-weight: 400;
+}
+
 .badge {
    font-size: 13px;
+   padding: 5px;
 }
 
 .row {
@@ -75,6 +81,29 @@
    word-wrap: break-word;
    background-color: #fff;
    border-right: 1px solid #bbb;
+}
+
+.botaoTabela {
+   width: 35px;
+   height: 35px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border: none;
+   border-radius: 4px;
+   color: white;
+}
+
+.botaoPrimary {
+   background-color: #0B5ED7;
+}
+
+.botaoSuccess {
+   background-color: #157347;
+}
+
+.botaoDanger {
+   background-color: #BB2D3B;
 }
 
 
