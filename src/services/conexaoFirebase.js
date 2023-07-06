@@ -7,13 +7,7 @@ import { getStorage } from 'firebase/storage';
 
 
 const firebaseConfig = {
-   apiKey: "AIzaSyD6gPOjg3cec7DV3oKLfMcOYe3TQEy_LGM",
-   authDomain: "sistema-de-chamado-dev.firebaseapp.com",
-   projectId: "sistema-de-chamado-dev",
-   storageBucket: "sistema-de-chamado-dev.appspot.com",
-   messagingSenderId: "846333746525",
-   appId: "1:846333746525:web:4e48f0fa54b91c049e1cb4",
-   measurementId: "G-VRGWPE70S2"
+   sua_chave
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
