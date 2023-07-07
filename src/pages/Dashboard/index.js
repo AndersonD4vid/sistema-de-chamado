@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './style.css';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
@@ -8,15 +8,15 @@ import { Link } from 'react-router-dom';
 import { db } from '../../services/conexaoFirebase';
 import { collection, getDocs, orderBy, limit, startAfter, query } from 'firebase/firestore';
 import { format } from 'date-fns';
+import ModalDetalhes from '../../components/Modal';
 
 const listRef = collection(db, "chamados");
 
 export default function Dashboard() {
-   const [modal, setModal] = useState(false);
-   const toggle = () => setModal(!modal);
-
    const [chamados, setChamados] = useState([]);
    const [loading, setLoading] = useState(true);
+   const [modal, setModal] = useState(false);
+   const [detalhes, setDetalhes] = useState();
 
    const [isEmpty, setIsEmpty] = useState(false);
    const [lastDocs, setLastDocs] = useState();
@@ -81,9 +81,13 @@ export default function Dashboard() {
       const querySnapshot = await getDocs(q);
       await updateState(querySnapshot);
 
-
    }
 
+
+   function toggleModal(item) {
+      setModal(!modal);
+      setDetalhes(item);
+   }
 
 
 
@@ -114,33 +118,6 @@ export default function Dashboard() {
                </Link>
             </div>
 
-            {/* Ver mais detalhes */}
-            <Modal isOpen={modal} toggle={toggle} size='lg' fade={false}>
-               <ModalHeader toggle={toggle}>Informações do cliente: Nome do cliente</ModalHeader>
-               <ModalBody>
-                  <Row>
-                     <Col md={6}>
-                        <strong>Assunto: Suporte</strong>
-                     </Col>
-                     <Col md={12}>
-                        <strong>Observação:</strong>
-                        <textarea style={{ width: '100%', height: 150, padding: 20, marginTop: 5 }} placeholder='Descrição da observação...'></textarea>
-                     </Col>
-                  </Row>
-               </ModalBody>
-               <ModalFooter>
-                  <Button color="primary" onClick={toggle}>
-                     Do Something
-                  </Button>
-                  <Button color="secondary" onClick={toggle}>
-                     Cancel
-                  </Button>
-               </ModalFooter>
-            </Modal>
-
-
-
-
 
             {chamados.length === 0 ?
                (
@@ -157,14 +134,8 @@ export default function Dashboard() {
                         return (
                            <div key={index} className='itemChamado'>
                               <Row className='row' style={{ margin: '0 auto' }}>
-                                 <Col xs={12} sm={1} md={2} className='Col'>
-                                    <div className='tabela'>
-                                       <strong>#</strong>
-                                       <span></span>
-                                    </div>
-                                 </Col>
 
-                                 <Col xs={12} sm={4} md={2} className='Col'>
+                                 <Col xs={12} sm={4} md={4} className='Col'>
                                     <div className='tabela'>
                                        <strong>Cliente</strong>
                                        <span>{item.cliente}</span>
@@ -195,7 +166,7 @@ export default function Dashboard() {
                                  <Col xs={12} sm={4} md={2} className='Col'>
                                     <div className='tabela'>
                                        <div className='botoes'>
-                                          <button className='botaoTabela botaoPrimary' onClick={toggle}>
+                                          <button className='botaoTabela botaoPrimary' onClick={() => toggleModal(item)}>
                                              <FiMaximize2 size={20} />
                                           </button>
                                           <Link to={`/novo-chamado/${item.id}`}>
@@ -224,6 +195,19 @@ export default function Dashboard() {
                )
             }
          </div>
+
+         {/* Ver mais detalhes */}
+         <Modal isOpen={modal} toggle={toggleModal} size='lg' fade={false}>
+            <ModalHeader toggle={toggleModal}>Informações do chamado</ModalHeader>
+            <ModalBody>
+               <ModalDetalhes conteudo={detalhes} />
+            </ModalBody>
+            <ModalFooter>
+               <Button color="primary" onClick={toggleModal}>
+                  Fechar
+               </Button>
+            </ModalFooter>
+         </Modal>
 
       </div>
    );
