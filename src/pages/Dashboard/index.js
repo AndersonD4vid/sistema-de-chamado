@@ -6,11 +6,14 @@ import { FiClipboard, FiEdit, FiMaximize2, FiTrash } from "react-icons/fi";
 import { Button, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { db } from '../../services/conexaoFirebase';
-import { collection, getDocs, orderBy, limit, startAfter, query } from 'firebase/firestore';
+import firebase from '../../services/conexaoFirebase';
+import { collection, getDocs, doc, orderBy, limit, startAfter, query, deleteDoc } from 'firebase/firestore';
 import { format } from 'date-fns';
+import { toast } from 'react-toastify';
 import ModalDetalhes from '../../components/Modal';
 
 const listRef = collection(db, "chamados");
+
 
 export default function Dashboard() {
    const [chamados, setChamados] = useState([]);
@@ -87,6 +90,17 @@ export default function Dashboard() {
    function toggleModal(item) {
       setModal(!modal);
       setDetalhes(item);
+   }
+
+   async function deletarChamado(item) {
+      const docRef = doc(db, 'chamados', item.id);
+      await deleteDoc(docRef).then(() => {
+         toast.success('Sucesso: Chamado deletado!');
+      }).catch((error) => {
+         toast.error('Erro: Algo deu errado! Tente mais tarde!', error);
+      })
+
+
    }
 
 
@@ -174,7 +188,7 @@ export default function Dashboard() {
                                                 <FiEdit size={20} />
                                              </button>
                                           </Link>
-                                          <button className='botaoTabela botaoDanger'>
+                                          <button className='botaoTabela botaoDanger' onClick={() => deletarChamado(item)}>
                                              <FiTrash size={20} />
                                           </button>
                                        </div>
