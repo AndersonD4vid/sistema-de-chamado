@@ -6,11 +6,15 @@ export default function ModalDetalhes({ conteudo }) {
    return (
       <div>
          <Row>
-            <Col md={6} style={{ marginBottom: 15 }}>
+            <Col md={5} style={{ marginBottom: 15 }}>
+               <strong>Cliente: {conteudo.cliente}</strong>
+            </Col>
+
+            <Col md={4} style={{ marginBottom: 15 }}>
                <strong>Assunto: {conteudo.assunto}</strong>
             </Col>
 
-            <Col md={6} style={{ marginBottom: 15 }}>
+            <Col md={3} style={{ marginBottom: 15 }}>
                <strong>Data: {conteudo.createdFormat}</strong>
             </Col>
 

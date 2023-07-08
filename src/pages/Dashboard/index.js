@@ -6,7 +6,6 @@ import { FiClipboard, FiEdit, FiMaximize2, FiTrash } from "react-icons/fi";
 import { Button, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { db } from '../../services/conexaoFirebase';
-import firebase from '../../services/conexaoFirebase';
 import { collection, getDocs, doc, orderBy, limit, startAfter, query, deleteDoc } from 'firebase/firestore';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
@@ -34,7 +33,7 @@ export default function Dashboard() {
       async function loadChamados() {
          const q = query(listRef, orderBy('created', 'desc'), limit(5)); // busca os 5 ultimos itens cadastrado
 
-         const querySnapshot = await getDocs(q);
+         const querySnapshot = await getDocs(q);;
          setChamados([]);
 
          await updateState(querySnapshot);
@@ -80,8 +79,6 @@ export default function Dashboard() {
 
    async function handleMore() {
       setLoadingMore(true);
-
-
       // Devolve mais 5 itens após o ultimo item da lista
       const q = query(listRef, orderBy('created', 'desc'), startAfter(lastDocs), limit(5));
       // Fazendo a requisição
@@ -91,7 +88,7 @@ export default function Dashboard() {
    }
 
 
-   function toggleModal(item) {
+   function toggleModal(item, clientes) {
       setModal(!modal);
       setDetalhes(item);
    }
@@ -167,7 +164,7 @@ export default function Dashboard() {
                                  <Col xs={12} sm={4} md={4} className='Col'>
                                     <div className='tabela'>
                                        <strong>Cliente</strong>
-                                       <span>{item.cliente}</span>
+                                       <span>{item.cliente} {item.cnpj}</span>
                                     </div>
                                  </Col>
 
@@ -206,9 +203,9 @@ export default function Dashboard() {
 
                                           {showBotao ?
                                              (
-                                             <button className='botaoTabela botaoDanger' onClick={() => deletarChamado(item)}>
+                                                <button className='botaoTabela botaoDanger' onClick={() => deletarChamado(item)}>
                                                    <FiTrash size={20} />
-                                             </button>
+                                                </button>
                                              )
                                              :
                                              (

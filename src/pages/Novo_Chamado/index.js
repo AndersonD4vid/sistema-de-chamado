@@ -5,7 +5,7 @@ import Title from '../../components/Title';
 import { FiClipboard } from "react-icons/fi";
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import { db } from '../../services/conexaoFirebase';
-import { collection, getDocs, getDoc, doc, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { AuthContext } from '../../contexts/auth';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -27,7 +27,7 @@ export default function NovoChamado() {
    const [status, setStatus] = useState('Aberto');
    const [idCliente, setIdCliente] = useState(false);
 
-
+   const [showBotao, setShowBotao] = useState(false);
 
 
    // Buscando dados dos clientes
@@ -117,6 +117,18 @@ export default function NovoChamado() {
             observacao: observacao,
             userId: user.uid
          }).then(() => {
+            if (status === 'Atendido') {
+               const docRef = doc(db, 'chamados', id);
+               deleteDoc(docRef).then(() => {
+                  toast.success('Sucesso: Chamado deletado!');
+                  setTimeout(() => {
+                     window.location.reload();
+                  }, 500);
+               }).catch((error) => {
+                  toast.error('Erro: Algo deu errado! Tente mais tarde!', error);
+               })
+               return;
+            }
             toast.success('Sucesso: Chamado atualizado!');
             setClienteSelected(0);
             setObservacao('');
