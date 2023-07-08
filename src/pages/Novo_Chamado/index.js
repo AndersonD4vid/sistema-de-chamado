@@ -227,7 +227,8 @@ export default function NovoChamado() {
                                  checked={status === 'Atendido'}
                                  onChange={handleOptionChange}
                               />
-                              Atendido
+
+                              {id ? 'Atendido = Deletar chamado' : 'Criar chamado'}
                            </Label>
                         </FormGroup>
                      </Col>

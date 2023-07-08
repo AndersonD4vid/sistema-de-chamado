@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import './style.css';
 import { AuthContext } from '../../contexts/auth';
 import { Link } from 'react-router-dom';
-import { FiClipboard, FiUser, FiSettings } from "react-icons/fi";
+import { FiClipboard, FiUser, FiSettings, FiPlus } from "react-icons/fi";
 import avatarImg from '../../assets/avatar.jpg';
-import backgroundImg from '../../assets/background.png';
 
 export default function Header() {
    const { logOut, user } = useContext(AuthContext);
@@ -30,6 +29,11 @@ export default function Header() {
             </Link>
 
             <Link to="/customers">
+               <FiPlus color='#fff' />
+               Cadastrar clientes
+            </Link>
+
+            <Link to="/registered-customers">
                <FiUser color='#fff' />
                Clientes
             </Link>

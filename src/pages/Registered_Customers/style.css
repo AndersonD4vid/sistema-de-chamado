@@ -1,0 +1,24 @@
+.card {
+   border: 1px solid #bbb;
+   margin-bottom: 15px;
+   padding: 10px;
+}
+
+.cardCliente {
+   margin: 30px 0px 100px 0px;
+}
+
+.cardCliente ul {
+   list-style: none;
+}
+
+.cardCliente li {
+   font-size: 1.4em;
+   font-weight: 500;
+}
+
+.cardCliente span {
+   font-size: smaller;
+   font-weight: 400;
+   color: #565656;
+}

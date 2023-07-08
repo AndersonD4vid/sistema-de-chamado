@@ -7,6 +7,7 @@ import Private from './private';
 import Profile from '../pages/Profile';
 import Customers from '../pages/Customers';
 import NovoChamado from '../pages/Novo_Chamado';
+import RegisteredCustomers from '../pages/Registered_Customers';
 
 export default function RoutesApp() {
    return (
@@ -16,6 +17,7 @@ export default function RoutesApp() {
          <Route path='/dashboard' element={<Private> <Dashboard /> </Private>} />
          <Route path='/profile' element={<Private> <Profile /> </Private>} />
          <Route path='/customers' element={<Private> <Customers /> </Private>} />
+         <Route path='/registered-customers' element={<Private> <RegisteredCustomers /> </Private>} />
          <Route path='/novo-chamado' element={<Private> <NovoChamado /> </Private>} />
          <Route path='/novo-chamado/:id' element={<Private> <NovoChamado /> </Private>} />
          <Route path='*' element={<Error />} />

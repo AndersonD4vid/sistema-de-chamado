@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.css';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
@@ -13,13 +13,11 @@ import ModalDetalhes from '../../components/Modal';
 
 const listRef = collection(db, "chamados");
 
-
 export default function Dashboard() {
    const [chamados, setChamados] = useState([]);
    const [loading, setLoading] = useState(true);
 
    const [modal, setModal] = useState(false);
-   const [modalRemove, setModalRemove] = useState(false);
    const [detalhes, setDetalhes] = useState();
 
    const [isEmpty, setIsEmpty] = useState(false);
@@ -32,11 +30,10 @@ export default function Dashboard() {
    useEffect(() => {
       async function loadChamados() {
          const q = query(listRef, orderBy('created', 'desc'), limit(5)); // busca os 5 ultimos itens cadastrado
-
-         const querySnapshot = await getDocs(q);;
+         const querySnapshot = await getDocs(q);
          setChamados([]);
-
          await updateState(querySnapshot);
+
 
          setLoading(false);
       }
@@ -53,6 +50,10 @@ export default function Dashboard() {
          querySnapshot.forEach((doc) => {
             lista.push({
                id: doc.id,
+               cnpj: doc.data().cnpj,
+               email: doc.data().email,
+               endereco: doc.data().endereco,
+               telefone: doc.data().telefone,
                cliente: doc.data().cliente,
                clienteID: doc.data().clienteID,
                assunto: doc.data().assunto,
@@ -88,7 +89,7 @@ export default function Dashboard() {
    }
 
 
-   function toggleModal(item, clientes) {
+   function toggleModal(item) {
       setModal(!modal);
       setDetalhes(item);
    }
@@ -171,7 +172,7 @@ export default function Dashboard() {
                                  <Col xs={12} sm={4} md={2} className='Col'>
                                     <div className='tabela'>
                                        <strong>Assunto</strong>
-                                       <span>{item.assunto}</span>
+                                       <span> {item.assunto}</span>
                                     </div>
                                  </Col>
 
