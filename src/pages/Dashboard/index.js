@@ -206,13 +206,13 @@ export default function Dashboard() {
 
                                           {showBotao ?
                                              (
-                                                <button className='botaoTabela botaoDanger' onClick={() => deletarChamado(item)}>
+                                             <button className='botaoTabela botaoDanger' onClick={() => deletarChamado(item)}>
                                                    <FiTrash size={20} />
-                                                </button>
+                                             </button>
                                              )
                                              :
                                              (
-                                                <div></div>
+                                                <div> </div>
                                              )
                                           }
 
