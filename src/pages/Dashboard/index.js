@@ -18,12 +18,16 @@ const listRef = collection(db, "chamados");
 export default function Dashboard() {
    const [chamados, setChamados] = useState([]);
    const [loading, setLoading] = useState(true);
+
    const [modal, setModal] = useState(false);
+   const [modalRemove, setModalRemove] = useState(false);
    const [detalhes, setDetalhes] = useState();
 
    const [isEmpty, setIsEmpty] = useState(false);
    const [lastDocs, setLastDocs] = useState();
    const [loadingMore, setLoadingMore] = useState(false);
+
+   const [showBotao, setShowBotao] = useState(false);
 
 
    useEffect(() => {
@@ -92,14 +96,21 @@ export default function Dashboard() {
       setDetalhes(item);
    }
 
+   function toggleBotao() {
+      setShowBotao(!showBotao);
+   }
+
+
    async function deletarChamado(item) {
       const docRef = doc(db, 'chamados', item.id);
       await deleteDoc(docRef).then(() => {
          toast.success('Sucesso: Chamado deletado!');
+         setTimeout(() => {
+            window.location.reload();
+         }, 500);
       }).catch((error) => {
          toast.error('Erro: Algo deu errado! Tente mais tarde!', error);
       })
-
 
    }
 
@@ -124,12 +135,16 @@ export default function Dashboard() {
                <FiClipboard color='#333' size={24} />
             </Title>
 
-            <div className='areaBotao'>
+            <div className='areaBotao' style={{ display: 'flex', gap: 15 }}>
                <Link to="/novo-chamado">
                   <Button color="success">
                      Cadastrar novo chamado
                   </Button>
                </Link>
+
+               <Button color="danger" onClick={toggleBotao}>
+                  {showBotao ? 'Desativar deletar chamado' : 'Ativar deletar chamado'}
+               </Button>
             </div>
 
 
@@ -188,9 +203,19 @@ export default function Dashboard() {
                                                 <FiEdit size={20} />
                                              </button>
                                           </Link>
-                                          <button className='botaoTabela botaoDanger' onClick={() => deletarChamado(item)}>
-                                             <FiTrash size={20} />
-                                          </button>
+
+                                          {showBotao ?
+                                             (
+                                                <button className='botaoTabela botaoDanger' onClick={() => deletarChamado(item)}>
+                                                   <FiTrash size={20} />
+                                                </button>
+                                             )
+                                             :
+                                             (
+                                                <div></div>
+                                             )
+                                          }
+
                                        </div>
                                     </div>
 
@@ -220,9 +245,11 @@ export default function Dashboard() {
                <Button color="primary" onClick={toggleModal}>
                   Fechar
                </Button>
+
             </ModalFooter>
          </Modal>
 
-      </div>
+
+      </div >
    );
 }

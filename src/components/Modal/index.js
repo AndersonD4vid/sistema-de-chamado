@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
 export default function ModalDetalhes({ conteudo }) {
 
@@ -28,6 +28,8 @@ export default function ModalDetalhes({ conteudo }) {
                <strong className='badge' style={{ backgroundColor: conteudo.status === 'Aberto' ? '#157347' : '#999' }}>{conteudo.status}</strong>
             </Col>
          </Row>
+
+
       </div>
    );
 }
